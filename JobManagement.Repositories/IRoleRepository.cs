@@ -12,6 +12,7 @@ namespace JobManagement.Repositories
     public interface IRoleRepository
     {
         public Task<List<role>> GetAllRoles();
+        public Task<role> GetRoleByCode(int code);
         public Task AddRole(role role);
        
        

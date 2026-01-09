@@ -17,7 +17,10 @@ namespace JobManagement.Repositories
         {
             _context = context;
         }
-
+        public async Task<role> GetRoleByCode(int code)
+        {
+            return await _context.roles.FirstOrDefaultAsync(r => r.code == code);
+        }
         public async Task AddRole(role role)
         {
             await _context.roles.AddAsync(role);

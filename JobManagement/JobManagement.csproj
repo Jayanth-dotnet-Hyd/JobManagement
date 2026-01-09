@@ -10,4 +10,11 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\JobManagement.Applicant.Data\JobManagement.Applicant.Data.csproj" />
+    <ProjectReference Include="..\JobManagement.Repositories\JobManagement.Repositories.csproj" />
+    <ProjectReference Include="..\JobManagement.Services\JobManagement.Services.csproj" />
+    <ProjectReference Include="..\JobManagemnet.Auth\JobManagemnet.Auth.csproj" />
+  </ItemGroup>
+
 </Project>

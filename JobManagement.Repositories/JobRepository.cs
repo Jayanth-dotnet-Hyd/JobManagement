@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace JobManagement.Repositories
 {
-    internal class JobRepository
+    public class JobRepository:IJobRepository
     {
         private readonly JobManagementDbContext _context;
 

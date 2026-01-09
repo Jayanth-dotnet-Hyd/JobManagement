@@ -29,6 +29,16 @@ namespace JobManagement.Services
             }
             return user;
         }
+        public async Task<user> GetUserByEmail(string email)
+        {
+            var users = await _applicantRepository.GetAllAsync();
+            var user = users.FirstOrDefault(u => u.email == email);
+            if (user == null)
+            {
+                throw new Exception("User not found");
+            }
+            return user;
+        }
         public async Task<List<user>> GetAllUsers()
         {
             var users = await _applicantRepository.GetAllAsync();

@@ -15,7 +15,10 @@ namespace JobManagement.Services
         {
             _roleRepository = roleRepository;
         }
-
+        public async Task<role> GetRoleByCode(int code)
+        {
+            return await _roleRepository.GetRoleByCode(code);
+        }   
         public async Task AddRole(role role)
         {
             await _roleRepository.AddRole(role);

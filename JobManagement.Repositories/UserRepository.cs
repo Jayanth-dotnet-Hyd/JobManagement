@@ -21,9 +21,14 @@ namespace JobManagement.Repositories
         {
             return await _context.users.ToListAsync();
         }
+
         public async Task<user> GetUserById(int userId)
         {
             return await _context.users.FindAsync(userId);
+        }
+        public async Task<user> GetUserByEmail(string email)
+        {
+            return await _context.users.FirstOrDefaultAsync(u => u.email == email);
         }
         public async Task<user> AddUser(user user)
         {

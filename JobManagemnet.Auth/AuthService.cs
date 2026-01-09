@@ -13,16 +13,14 @@ namespace JobManagemnet.Auth
         private readonly JobManagementDbContext _context;
         private readonly ITokenService _tokenService;
 
-        public AuthService(
-              JobManagementDbContext context,
-              ITokenService tokenService
-            )
+        public AuthService(JobManagementDbContext context,ITokenService tokenService)
         {
-            context = _context;
-            tokenService = _tokenService;
+            _context = context;
+            _tokenService = tokenService;
         }
 
-       
+
+
 
         public async Task<AuthResponse> LoginAsync(LoginRequest request)
         {

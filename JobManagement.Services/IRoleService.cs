@@ -10,7 +10,7 @@ namespace JobManagement.Services
     public interface IRoleService
     {
         public Task<List<role>> GetAllRoles();
-        
+        public Task<role> GetRoleByCode(int code);
         public Task AddRole(role role);
         
     }

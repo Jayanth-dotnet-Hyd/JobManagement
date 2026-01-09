@@ -8,5 +8,6 @@ namespace JobManagement.Services
 {
     public interface IJobService
     {
+
     }
 }
