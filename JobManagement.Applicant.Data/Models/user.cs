@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace JobManagement.Applicant.Data.Models;
 
-[Index("email", Name = "UQ__users__AB6E6164A4A0A22A", IsUnique = true)]
+[Index("email", Name = "UQ__users__AB6E616477EBABE8", IsUnique = true)]
 public partial class user
 {
     [Key]

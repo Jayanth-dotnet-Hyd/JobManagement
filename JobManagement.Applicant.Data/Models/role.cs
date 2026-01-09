@@ -6,8 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace JobManagement.Applicant.Data.Models;
 
-[Index("code", Name = "UQ__roles__357D4CF9D017A124", IsUnique = true)]
-[Index("role_name", Name = "UQ__roles__783254B1BC3D106D", IsUnique = true)]
+[Index("code", Name = "UQ__roles__357D4CF9AAD0410E", IsUnique = true)]
+[Index("role_name", Name = "UQ__roles__783254B180A43D6F", IsUnique = true)]
 public partial class role
 {
     [Key]
