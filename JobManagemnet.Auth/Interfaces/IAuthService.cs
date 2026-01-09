@@ -10,6 +10,6 @@ namespace JobManagemnet.Auth.Interfaces
     public interface IAuthService
     {
         Task<AuthResponse> LoginAsync(LoginRequest request);
-        Task<AuthResponse> RegisterAsync(RegisterRequest request);
+        Task<RegisterResponse> RegisterAsync(RegisterRequest request);
     }
 }

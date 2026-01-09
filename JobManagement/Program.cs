@@ -2,6 +2,8 @@ using JobManagement.Applicant.Data.Context;
 using JobManagement.Repositories;
 using JobManagemnet.Auth;
 using JobManagemnet.Auth.Interfaces;
+using JobManagemnet.Auth.models;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+builder.Services.Configure<JwtSettings>(
+    builder.Configuration.GetSection("JwtSettings")
+);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<JobManagementDbContext>();
@@ -19,6 +25,9 @@ builder.Services.AddScoped<IApplicantRepository,ApplicantRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 
+builder.Services.Configure<JwtSettings>(
+    builder.Configuration.GetSection("JwtSettings")
+);
 
 var app = builder.Build();
 

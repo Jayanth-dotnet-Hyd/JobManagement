@@ -1,4 +1,5 @@
 ﻿using JobManagemnet.Auth;
+using JobManagemnet.Auth.Interfaces;
 using JobManagemnet.Auth.models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,9 +10,9 @@ namespace JobManagement.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly AuthService _authService;
+        private readonly IAuthService _authService;
 
-        public AuthController(AuthService authService)
+        public AuthController(IAuthService authService)
         {
             _authService = authService;
         }

@@ -47,7 +47,7 @@ namespace JobManagemnet.Auth
             };
         }
 
-        public async Task<AuthResponse> RegisterAsync(RegisterRequest request)
+        public async Task<RegisterResponse> RegisterAsync(RegisterRequest request)
         {
             var exists = await _context.users
             .AnyAsync(u => u.email == request.Email);
@@ -75,18 +75,18 @@ namespace JobManagemnet.Auth
             _context.users.Add(user);
             await _context.SaveChangesAsync();
 
-            var token = _tokenService.GenerateToken(
-                user.id,
-                user.email,
-                role.role_name
-            );
+            //var token = _tokenService.GenerateToken(
+            //    user.id,
+            //    user.email,
+            //    role.role_name
+            //);
 
-            return new AuthResponse
+            return new RegisterResponse
             {
                 UserId = user.id,
                 Email = user.email,
-                Role = role.role_name,
-                Token = token
+                Role = role.role_name
+              
             };
         }
     }
