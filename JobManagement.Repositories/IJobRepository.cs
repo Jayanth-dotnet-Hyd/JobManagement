@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JobManagement.Applicant.Data.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,13 @@ using System.Threading.Tasks;
 
 namespace JobManagement.Repositories
 {
-    internal interface IJobRepository
+    public interface IJobRepository
     {
+        Task<IEnumerable<job>> GetAllAsync();
+        Task<job?> GetByIdAsync(long id);
+        Task<IEnumerable<job>> GetOpenJobsAsync();
+       // Task<IEnumerable<job>> GetJobsByCreatorAsync(long creatorId);
+        Task AddAsync(job job);
+        Task UpdateAsync(job job);
     }
 }
