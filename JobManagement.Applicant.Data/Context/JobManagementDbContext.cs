@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace JobManagement.Applicant.Data.Context;
 
-public partial class ToDoTaskDbContext : DbContext
+public partial class JobManagementDbContext : DbContext
 {
-    public ToDoTaskDbContext()
+    public JobManagementDbContext()
     {
     }
 
-    public ToDoTaskDbContext(DbContextOptions<ToDoTaskDbContext> options)
+    public JobManagementDbContext(DbContextOptions<JobManagementDbContext> options)
         : base(options)
     {
     }
