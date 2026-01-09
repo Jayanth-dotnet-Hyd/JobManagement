@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace JobManagement.Repositories
 {
-    internal class RoleRepository : IRoleRepository
+    public class RoleRepository : IRoleRepository
     {
         private readonly JobManagementDbContext _context;
         public RoleRepository(JobManagementDbContext context)
