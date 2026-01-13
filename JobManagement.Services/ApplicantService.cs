@@ -1,4 +1,5 @@
 ﻿using JobManagement.Applicant.Data.Models;
+using JobManagement.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace JobManagement.Repositories
 {
-    public class ApplicantService
+    public class ApplicantService: IApplicantService
     {
         private readonly IApplicantRepository _applicantRepository;
 

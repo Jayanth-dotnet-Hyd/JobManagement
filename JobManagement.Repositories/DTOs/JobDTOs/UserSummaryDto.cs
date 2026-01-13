@@ -10,6 +10,8 @@ namespace JobManagement.Repositories.DTOs.JobDTOs
     {
         public long Id { get; set; }
         public string FullName { get; set; } = null!;
+        public string phone { get; set; }
         public string Email { get; set; } = null!;
+        public string Role { get; set; }
     }
 }

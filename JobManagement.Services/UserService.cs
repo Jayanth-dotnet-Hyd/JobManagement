@@ -10,19 +10,19 @@ namespace JobManagement.Services
 {
     public class UserService : IUserService
     {
-        private readonly IApplicantRepository _applicantRepository;
-        public UserService(IApplicantRepository applicantRepository)
+        private readonly IUserRepository _userRepository;
+        public UserService(IUserRepository userRepository)
         {
-            _applicantRepository = applicantRepository;
+            _userRepository = userRepository;
         }
 
         public async Task AddUser(user user)
         {
-            await _applicantRepository.AddAsync(user);
+            await _userRepository.AddUser(user);
         }
-        public async Task<user> GetUserById(int id)
+        public async Task<user> GetUserById(long id)
         {
-            var user = await _applicantRepository.GetByIdAsync(id);
+            var user = await _userRepository.GetUserById(id);
             if (user == null)
             {
                 throw new Exception("User not found");
@@ -31,22 +31,22 @@ namespace JobManagement.Services
         }
         public async Task<user> GetUserByEmail(string email)
         {
-            var users = await _applicantRepository.GetAllAsync();
-            var user = users.FirstOrDefault(u => u.email == email);
-            if (user == null)
+            var users = await _userRepository.GetUserByEmail(email);
+            
+            if (users == null)
             {
                 throw new Exception("User not found");
             }
-            return user;
+            return users;
         }
         public async Task<List<user>> GetAllUsers()
         {
-            var users = await _applicantRepository.GetAllAsync();
-            return users.ToList();
+            var users = await _userRepository.GetAllUsers();
+            return users;
         }
         public async Task UpdateUser(user user)
         {
-            await _applicantRepository.UpdateAsync(user);
+            await _userRepository.UpdateUser(user);
         }
 
     }

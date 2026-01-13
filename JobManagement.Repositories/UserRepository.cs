@@ -22,7 +22,7 @@ namespace JobManagement.Repositories
             return await _context.users.ToListAsync();
         }
 
-        public async Task<user> GetUserById(int userId)
+        public async Task<user> GetUserById(long userId)
         {
             return await _context.users.FindAsync(userId);
         }

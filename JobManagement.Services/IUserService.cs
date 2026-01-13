@@ -10,7 +10,7 @@ namespace JobManagement.Services
     public interface IUserService
     {
         public Task<List<user>> GetAllUsers();
-        public Task<user> GetUserById(int id);
+        public Task<user> GetUserById(long id);
         public Task<user> GetUserByEmail(string email);
         public Task AddUser(user user);
         public Task UpdateUser(user user);

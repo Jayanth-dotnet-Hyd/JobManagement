@@ -19,10 +19,12 @@ public class TokenService : ITokenService
     {
         var claims = new[]
         {
-            new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),
-            new Claim(JwtRegisteredClaimNames.Email, email),
-            new Claim(ClaimTypes.Role, role)
-        };
+        
+        new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
+        new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),
+        new Claim(JwtRegisteredClaimNames.Email, email),
+        new Claim(ClaimTypes.Role, role)
+    };
 
         var key = new SymmetricSecurityKey(
             Encoding.UTF8.GetBytes(_settings.Key));
@@ -39,4 +41,5 @@ public class TokenService : ITokenService
 
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
+
 }
