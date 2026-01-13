@@ -1,5 +1,7 @@
 ﻿using JobManagement.Applicant.Data.Context;
 using JobManagement.Applicant.Data.Models;
+using JobManagement.Repositories.DTOs.JobDTOs;
+
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -18,11 +20,31 @@ namespace JobManagement.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<job>> GetAllAsync()
+        public async Task<IEnumerable<jobDto>> GetAllAsync()
         {
             return await _context.jobs
-                .Include(j => j.created_byNavigation)
-                .ToListAsync();
+              .Include(j => j.created_byNavigation)
+              .Select(j => new jobDto
+              {
+                  Id = j.id,
+                  Title = j.title,
+                  Description = j.description,
+                  Location = j.location,
+                  EmploymentType = j.employment_type,
+                  ExperienceLevel = j.experience_level,
+                  SalaryMin = j.salary_min,
+                  SalaryMax = j.salary_max,
+                  Status = j.status,
+                  CreatedAt = j.created_at,
+
+                  CreatedBy = new UserSummaryDto
+                  {
+                      Id = j.created_byNavigation!.id,
+                      FullName = j.created_byNavigation.full_name,
+                      Email = j.created_byNavigation.email
+                  }
+              })
+              .ToListAsync();
         }
 
         public async Task<job?> GetByIdAsync(long id)

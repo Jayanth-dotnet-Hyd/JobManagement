@@ -1,4 +1,5 @@
 ﻿using JobManagement.Applicant.Data.Models;
+using JobManagement.Repositories.DTOs.JobDTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace JobManagement.Services
     public interface IJobService
     {
 
-        Task<IEnumerable<job>> GetAllJobsAsync();
+        Task<IEnumerable<jobDto>> GetAllJobsAsync();
         Task<IEnumerable<job>> GetOpenJobsAsync();
         Task<job?> GetJobByIdAsync(long jobId);
         Task<IEnumerable<job>> GetJobsCreatedByAsync(long creatorId);

@@ -9,8 +9,8 @@ namespace JobManagement.Controllers
     [ApiController]
     public class JobController : ControllerBase
     {
-        private readonly JobService _jobService;
-        public JobController(JobService jobService)
+        private readonly IJobService _jobService;
+        public JobController(IJobService jobService)
         {
             _jobService = jobService;
         }

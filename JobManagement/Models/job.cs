@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 namespace JobManagement.Models;
 
@@ -43,9 +44,11 @@ public partial class job
     public DateTime? updated_at { get; set; }
 
     [InverseProperty("job")]
+ 
     public virtual ICollection<application> applications { get; set; } = new List<application>();
 
     [ForeignKey("created_by")]
     [InverseProperty("jobs")]
+  
     public virtual user? created_byNavigation { get; set; }
 }

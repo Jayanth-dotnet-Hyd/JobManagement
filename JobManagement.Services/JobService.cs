@@ -1,5 +1,6 @@
 ﻿using JobManagement.Applicant.Data.Models;
 using JobManagement.Repositories;
+using JobManagement.Repositories.DTOs.JobDTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace JobManagement.Services
 {
-    public class JobService
+    public class JobService:IJobService
     {
         private readonly IJobRepository _jobRepository;
 
@@ -17,7 +18,7 @@ namespace JobManagement.Services
             _jobRepository = jobRepository;
         }
 
-        public async Task<IEnumerable<job>> GetAllJobsAsync()
+        public async Task<IEnumerable<jobDto>> GetAllJobsAsync()
         {
             return await _jobRepository.GetAllAsync();
         }

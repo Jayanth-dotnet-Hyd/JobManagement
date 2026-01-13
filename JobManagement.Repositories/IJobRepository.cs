@@ -1,4 +1,5 @@
 ﻿using JobManagement.Applicant.Data.Models;
+using JobManagement.Repositories.DTOs.JobDTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace JobManagement.Repositories
 {
     public interface IJobRepository
     {
-        Task<IEnumerable<job>> GetAllAsync();
+        Task<IEnumerable<jobDto>> GetAllAsync();
         Task<job?> GetByIdAsync(long id);
         Task<IEnumerable<job>> GetOpenJobsAsync();
         Task<IEnumerable<job>> GetJobsByCreatorAsync(long creatorId);
