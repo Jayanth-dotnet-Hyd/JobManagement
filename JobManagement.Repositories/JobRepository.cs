@@ -48,12 +48,32 @@ namespace JobManagement.Repositories
               .ToListAsync();
         }
 
-        public async Task<job?> GetByIdAsync(long id)
+        public async Task<jobDto?> GetByIdAsync(long id)
         {
             return await _context.jobs
                 .Include(j => j.applications)
                 .Include(j => j.created_byNavigation)
-                .FirstOrDefaultAsync(j => j.id == id);
+                .Where(j => j.id == id)
+                .Select(j => new jobDto
+                {
+                    Id = j.id,
+                    Title = j.title,
+                    Description = j.description,
+                    Location = j.location,
+                    EmploymentType = j.employment_type,
+                    ExperienceLevel = j.experience_level,
+                    SalaryMin = j.salary_min,
+                    SalaryMax = j.salary_max,
+                    Status = j.status,
+                    CreatedAt = j.created_at,
+                    CreatedBy = new UserSummaryDto
+                    {
+                        Id = j.created_byNavigation!.id,
+                        FullName = j.created_byNavigation.full_name,
+                        Email = j.created_byNavigation.email
+                    }
+                })
+                .FirstOrDefaultAsync();
         }
 
         public async Task<IEnumerable<job>> GetOpenJobsAsync()

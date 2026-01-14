@@ -28,7 +28,7 @@ namespace JobManagement.Services
             return await _jobRepository.GetOpenJobsAsync();
         }
 
-        public async Task<job?> GetJobByIdAsync(long jobId)
+        public async Task<jobDto?> GetJobByIdAsync(long jobId)
         {
             return await _jobRepository.GetByIdAsync(jobId);
         }

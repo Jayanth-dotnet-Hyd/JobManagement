@@ -11,7 +11,7 @@ namespace JobManagement.Repositories
     public interface IJobRepository
     {
         Task<IEnumerable<jobDto>> GetAllAsync();
-        Task<job?> GetByIdAsync(long id);
+        Task<jobDto?> GetByIdAsync(long id);
         Task<IEnumerable<job>> GetOpenJobsAsync();
         Task<IEnumerable<job>> GetJobsByCreatorAsync(long creatorId);
         Task AddAsync(job job);
