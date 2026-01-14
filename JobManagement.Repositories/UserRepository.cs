@@ -24,7 +24,12 @@ namespace JobManagement.Repositories
 
         public async Task<user> GetUserById(long userId)
         {
-            return await _context.users.FindAsync(userId);
+
+            var user = await _context.users
+                      .Include(u => u.role)
+                      .FirstOrDefaultAsync(u => u.id == userId);
+            return user;
+
         }
         public async Task<user> GetUserByEmail(string email)
         {

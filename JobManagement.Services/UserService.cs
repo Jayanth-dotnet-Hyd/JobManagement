@@ -1,10 +1,12 @@
 ﻿using JobManagement.Applicant.Data.Models;
 using JobManagement.Repositories;
+using JobManagement.Repositories.DTOs.JobDTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace JobManagement.Services
 {
@@ -20,14 +22,21 @@ namespace JobManagement.Services
         {
             await _userRepository.AddUser(user);
         }
-        public async Task<user> GetUserById(long id)
+        public async Task<UserSummaryDto> GetUserSummaryById(long id)
         {
             var user = await _userRepository.GetUserById(id);
             if (user == null)
             {
                 throw new Exception("User not found");
             }
-            return user;
+            return new UserSummaryDto
+            {
+                Id = user.id,
+                full_name = user.full_name,
+                email = user.email,
+                phone = user.phone,
+                role = user.role.role_name  
+            };
         }
         public async Task<user> GetUserByEmail(string email)
         {

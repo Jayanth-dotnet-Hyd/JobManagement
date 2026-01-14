@@ -42,7 +42,8 @@ namespace JobManagement.Repositories
                       Id = j.created_byNavigation!.id,
                       full_name = j.created_byNavigation.full_name,
                       email = j.created_byNavigation.email,
-                      role = j.created_byNavigation.role
+                      phone=j.created_byNavigation.phone,
+                      role = j.created_byNavigation.role.role_name,
                   }
               })
               .ToListAsync();

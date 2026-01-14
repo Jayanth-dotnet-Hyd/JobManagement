@@ -13,6 +13,6 @@ namespace JobManagement.Repositories.DTOs.JobDTOs
         public string full_name { get; set; } = null!;
         public string phone { get; set; }
         public string email { get; set; } = null!;
-        public role role { get; set; }
+        public string role { get; set; }
     }
 }

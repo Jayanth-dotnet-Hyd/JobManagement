@@ -39,8 +39,8 @@ namespace JobManagement.Controllers
 
             long userId = long.Parse(userIdClaim.Value);
 
-            var user = await _userService.GetUserById(userId);
-            return Ok(user);
+            var userSummary = await _userService.GetUserSummaryById(userId);
+            return Ok(userSummary);
         }
 
         [HttpGet("email/{email}")]
