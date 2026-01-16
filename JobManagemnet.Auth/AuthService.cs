@@ -75,11 +75,7 @@ namespace JobManagemnet.Auth
             _context.users.Add(user);
             await _context.SaveChangesAsync();
 
-            //var token = _tokenService.GenerateToken(
-            //    user.id,
-            //    user.email,
-            //    role.role_name
-            //);
+          
 
             return new RegisterResponse
             {

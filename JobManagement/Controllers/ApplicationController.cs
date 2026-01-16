@@ -1,5 +1,7 @@
 ﻿using JobManagement.Applicant.Data.Models;
 using JobManagement.Repositories;
+using JobManagement.Repositories.DTOs.JobDTOs;
+using JobManagement.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,36 +14,117 @@ namespace JobManagement.Controllers
     [ApiController]
     public class ApplicationController : ControllerBase
     {
-        private readonly ApplicantService _applicantService;
-        public ApplicationController(ApplicantService applicantService)
+        private readonly IApplicationService _applicationService;
+
+        public ApplicationController(IApplicationService applicationService)
         {
-            _applicantService = applicantService;
+            _applicationService = applicationService;
         }
-        [HttpGet]
-        public async Task<IActionResult> GetAllApplications()
+
+        // ======================================
+        // Applicant APIs
+        // ======================================
+
+        /// <summary>
+        /// Apply for a job
+        /// </summary>
+        [HttpPost("apply")]
+        public async Task<IActionResult> ApplyForJob([FromBody] ApplyJobDto dto )
         {
-            var applications = await _applicantService.GetAllApplicantsAsync();
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            try
+            {
+                await _applicationService.ApplyForJobAsync( dto);
+                return Ok(new { message = "Job applied successfully." });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        /// <summary>
+        /// Get applications of a specific applicant
+        /// </summary>
+        [HttpGet("applicant/{applicantId:long}")]
+        public async Task<IActionResult> GetByApplicant(long applicantId)
+        {
+            var applications = await _applicationService
+                .GetApplicationsByApplicantAsync(applicantId);
+
             return Ok(applications);
         }
-        [HttpGet("{id:long}")]
-        public async Task<IActionResult> GetApplicationById(long id)
+
+        // ======================================
+        // HR / Admin APIs
+        // ======================================
+
+        /// <summary>
+        /// Get applications for a job
+        /// </summary>
+        [HttpGet("job/{jobId:long}")]
+        public async Task<IActionResult> GetByJob(long jobId)
         {
-            var application = await _applicantService.GetApplicantByIdAsync(id);
-            if (application == null)
+            var applications = await _applicationService
+                .GetApplicationsByJobAsync(jobId);
+
+            return Ok(applications);
+        }
+
+        /// <summary>
+        /// Update application status (HR)
+        /// </summary>
+        [HttpPut("{applicationId:long}/status")]
+        public async Task<IActionResult> UpdateStatus(
+            long applicationId,
+            [FromQuery] string status)
+        {
+            try
             {
-                return NotFound();
+                await _applicationService.UpdateStatusAsync(applicationId, status);
+                return Ok(new { message = "Application status updated." });
             }
+            catch (Exception ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+        }
+
+        // ======================================
+        // Common APIs
+        // ======================================
+
+        /// <summary>
+        /// Get application by id
+        /// </summary>
+        [HttpGet("{id:long}")]
+        public async Task<IActionResult> GetById(long id)
+        {
+            var application = await _applicationService.GetApplicationByIdAsync(id);
+
+            if (application == null)
+                return NotFound(new { message = "Application not found." });
+
             return Ok(application);
         }
-        [HttpPut("{id:long}")]
-        public async Task<IActionResult> UpdateApplication(long id, [FromBody] user applicant)
+
+        /// <summary>
+        /// Delete application
+        /// </summary>
+        [HttpDelete("{id:long}")]
+        public async Task<IActionResult> Delete(long id)
         {
-            await _applicantService.UpdateApplicantProfileAsync(applicant);
-            return Ok(new
+            try
             {
-                success = true,
-                message = "Application updated successfully"
-            });
+                await _applicationService.DeleteApplicationAsync(id);
+                return Ok(new { message = "Application deleted successfully." });
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
         }
 
     }
