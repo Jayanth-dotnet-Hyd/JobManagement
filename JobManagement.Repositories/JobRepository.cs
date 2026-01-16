@@ -70,8 +70,10 @@ namespace JobManagement.Repositories
                     CreatedBy = new UserSummaryDto
                     {
                         Id = j.created_byNavigation!.id,
-                        FullName = j.created_byNavigation.full_name,
-                        Email = j.created_byNavigation.email
+                        full_name = j.created_byNavigation.full_name,
+                        email = j.created_byNavigation.email,
+                        phone= j.created_byNavigation.phone,
+                        role =j.created_byNavigation.role.role_name,
                     }
                 })
                 .FirstOrDefaultAsync();
