@@ -14,9 +14,10 @@ namespace JobManagement.Services
         Task<application?> GetApplicationByIdAsync(long id);
 
         Task<IEnumerable<application>> GetApplicationsByJobAsync(long jobId);
+        Task<List<AppliedJobDto>> GetAllAppliedJobsAsync(int userId);
         Task<IEnumerable<application>> GetApplicationsByApplicantAsync(long applicantId);
 
-        Task ApplyForJobAsync(ApplyJobDto dto );
+        Task ApplyForJobAsync(int userId,JobApplicationCreateDto dto );
         Task UpdateStatusAsync(long applicationId, string status);
         Task DeleteApplicationAsync(long applicationId);
     }

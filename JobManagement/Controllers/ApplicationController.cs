@@ -5,6 +5,7 @@ using JobManagement.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 
 namespace JobManagement.Controllers
@@ -21,22 +22,18 @@ namespace JobManagement.Controllers
             _applicationService = applicationService;
         }
 
-        // ======================================
-        // Applicant APIs
-        // ======================================
-
-        /// <summary>
-        /// Apply for a job
-        /// </summary>
+       
         [HttpPost("apply")]
-        public async Task<IActionResult> ApplyForJob([FromBody] ApplyJobDto dto )
+        public async Task<IActionResult> ApplyForJob([FromBody] JobApplicationCreateDto dto )
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-
+            int userId = int.Parse(
+     User.FindFirst(ClaimTypes.NameIdentifier)!.Value
+ );
             try
             {
-                await _applicationService.ApplyForJobAsync( dto);
+                await _applicationService.ApplyForJobAsync(userId, dto);
                 return Ok(new { message = "Job applied successfully." });
             }
             catch (Exception ex)
@@ -45,9 +42,7 @@ namespace JobManagement.Controllers
             }
         }
 
-        /// <summary>
-        /// Get applications of a specific applicant
-        /// </summary>
+        
         [HttpGet("applicant/{applicantId:long}")]
         public async Task<IActionResult> GetByApplicant(long applicantId)
         {
@@ -56,14 +51,18 @@ namespace JobManagement.Controllers
 
             return Ok(applications);
         }
+       
+        [HttpGet("applied")]
+        public async Task<IActionResult> GetAppliedJobs()
+        {
+            int userId = int.Parse(
+                User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value
+            );
 
-        // ======================================
-        // HR / Admin APIs
-        // ======================================
+            var result = await _applicationService.GetAllAppliedJobsAsync(userId);
+            return Ok(result);
+        }
 
-        /// <summary>
-        /// Get applications for a job
-        /// </summary>
         [HttpGet("job/{jobId:long}")]
         public async Task<IActionResult> GetByJob(long jobId)
         {
@@ -73,9 +72,7 @@ namespace JobManagement.Controllers
             return Ok(applications);
         }
 
-        /// <summary>
-        /// Update application status (HR)
-        /// </summary>
+        
         [HttpPut("{applicationId:long}/status")]
         public async Task<IActionResult> UpdateStatus(
             long applicationId,
@@ -92,13 +89,7 @@ namespace JobManagement.Controllers
             }
         }
 
-        // ======================================
-        // Common APIs
-        // ======================================
-
-        /// <summary>
-        /// Get application by id
-        /// </summary>
+        
         [HttpGet("{id:long}")]
         public async Task<IActionResult> GetById(long id)
         {
@@ -110,9 +101,7 @@ namespace JobManagement.Controllers
             return Ok(application);
         }
 
-        /// <summary>
-        /// Delete application
-        /// </summary>
+        
         [HttpDelete("{id:long}")]
         public async Task<IActionResult> Delete(long id)
         {

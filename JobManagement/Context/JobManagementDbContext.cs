@@ -34,7 +34,12 @@ public partial class JobManagementDbContext : DbContext
         {
             entity.HasKey(e => e.id).HasName("PK__applicat__3213E83FD25B048B");
 
+            entity.Property(e => e.address).HasDefaultValue("");
+            entity.Property(e => e.applicant_email).HasDefaultValue("");
+            entity.Property(e => e.applicant_name).HasDefaultValue("");
             entity.Property(e => e.applied_at).HasDefaultValueSql("(getutcdate())");
+            entity.Property(e => e.phone).HasDefaultValue("");
+            entity.Property(e => e.qualification).HasDefaultValue("");
             entity.Property(e => e.status).HasDefaultValue("APPLIED");
 
             entity.HasOne(d => d.applicant).WithMany(p => p.applications)
