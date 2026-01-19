@@ -29,9 +29,28 @@ namespace JobManagement.Services
             return await _applicationRepository.GetByIdAsync(id);
         }
 
-        public async Task<IEnumerable<application>> GetApplicationsByJobAsync(long jobId)
+        public async Task<IEnumerable<ApplicationResponseDto>> GetApplicationsByJobAsync(long jobId)
         {
-            return await _applicationRepository.GetByJobIdAsync(jobId);
+            var applications = await _applicationRepository.GetByJobIdAsync(jobId);
+
+            return applications.Select(a => new ApplicationResponseDto
+            {
+                Id = a.id,
+                JobId = a.job_id,
+                ApplicantId = a.applicant_id,
+                ResumeUrl = a.resume_url,
+                CoverLetter = a.cover_letter,
+                Status = a.status,
+                AppliedAt = a.applied_at,
+                UpdatedAt = a.updated_at,
+
+                ApplicantName = a.applicant_name,
+                ApplicantEmail = a.applicant_email,
+                Phone = a.phone,
+                Address = a.address,
+                GraduationYear = a.graduation_year,
+                Qualification = a.qualification
+            });
         }
         public async Task<List<AppliedJobDto>> GetAllAppliedJobsAsync(int userId)
         {

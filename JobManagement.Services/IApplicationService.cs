@@ -13,7 +13,7 @@ namespace JobManagement.Services
         Task<IEnumerable<application>> GetAllApplicationsAsync();
         Task<application?> GetApplicationByIdAsync(long id);
 
-        Task<IEnumerable<application>> GetApplicationsByJobAsync(long jobId);
+        Task<IEnumerable<ApplicationResponseDto>> GetApplicationsByJobAsync(long jobId);
         Task<List<AppliedJobDto>> GetAllAppliedJobsAsync(int userId);
         Task<IEnumerable<application>> GetApplicationsByApplicantAsync(long applicantId);
 
