@@ -38,12 +38,21 @@ namespace JobManagement.Services
             return await _jobRepository.GetJobsByCreatorAsync(creatorId);
         }
 
-        public async Task CreateJobAsync(job job, long creatorId)
+        public async Task CreateJobAsync(CreateJobDto job,long hrId)
         {
-            job.created_by = creatorId;
-            job.status = "OPEN";
+            var newJob = new job
+            {
+                title = job.Title,
+                description = job.Description,
+                location = job.Location,
+                employment_type = job.EmploymentType,
+                salary_min = job.MinSalary,
+                salary_max = job.MaxSalary,
+                created_by = hrId,
+                status = "OPEN"
+            };
 
-            await _jobRepository.AddAsync(job);
+            await _jobRepository.AddAsync(newJob);
         }
 
         public async Task UpdateJobAsync(job job)

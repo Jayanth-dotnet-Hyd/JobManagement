@@ -1,8 +1,10 @@
 ﻿using JobManagement.Applicant.Data.Models;
+using JobManagement.Repositories.DTOs.JobDTOs;
 using JobManagement.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace JobManagement.Controllers
 {
@@ -44,10 +46,17 @@ namespace JobManagement.Controllers
             var jobs = await _jobService.GetJobsCreatedByAsync(creatorId);
             return Ok(jobs);
         }
-        [HttpPost]
-        public async Task<IActionResult> CreateJob([FromBody] job job, long creatorId)
+        [HttpPost("create")]
+        public async Task<IActionResult> CreateJob([FromBody] CreateJobDto job, long creatorId)
         {
-            await _jobService.CreateJobAsync(job, creatorId);
+            if (ModelState.IsValid == false)
+            {
+                return BadRequest(ModelState);
+            }
+            long hrId = long.Parse(
+        User.FindFirst(ClaimTypes.NameIdentifier)!.Value
+    );
+            await _jobService.CreateJobAsync(job, hrId);
             return Ok(new
             {
                 success = true,

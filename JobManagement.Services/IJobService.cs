@@ -15,7 +15,7 @@ namespace JobManagement.Services
         Task<IEnumerable<job>> GetOpenJobsAsync();
         Task<jobDto?> GetJobByIdAsync(long jobId);
         Task<IEnumerable<job>> GetJobsCreatedByAsync(long creatorId);
-        Task CreateJobAsync(job job, long creatorId);
+        Task CreateJobAsync(CreateJobDto job, long hrId);
         Task UpdateJobAsync(job job);
 
     }
