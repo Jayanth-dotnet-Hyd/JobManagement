@@ -73,5 +73,26 @@ namespace JobManagement.Controllers
                 message = "Job updated successfully"
             });
         }
+        [HttpDelete("{jobId}")]
+        public async Task<IActionResult> DeleteJob(long jobId)
+        {
+            try
+            {
+                await _jobService.DeleteJobAsync(jobId);
+                return Ok(new
+                {
+                    success = true,
+                    message = "Job expired successfully"
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    success = false,
+                    message = ex.Message
+                });
+            }
+        }
     }
 }

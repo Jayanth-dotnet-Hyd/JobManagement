@@ -30,6 +30,7 @@ namespace JobManagement.Repositories
         {
             return await _context.roles.ToListAsync();
         }
+       
 
     }
 }

@@ -106,5 +106,21 @@ namespace JobManagement.Repositories
             _context.jobs.Update(job);
             await _context.SaveChangesAsync();
         }
+        public async Task DeleteJobAsync(long jobId)
+        {
+            var job = await _context.jobs
+                .IgnoreQueryFilters() 
+                .FirstOrDefaultAsync(j => j.id == jobId);
+
+            if (job == null)
+                throw new Exception("Job not found");
+
+            job.status = "EXPIRED";
+            job.updated_at = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+        }
+
+
     }
 }

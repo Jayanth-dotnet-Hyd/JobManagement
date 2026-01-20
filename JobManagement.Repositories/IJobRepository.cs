@@ -16,5 +16,6 @@ namespace JobManagement.Repositories
         Task<IEnumerable<job>> GetJobsByCreatorAsync(long creatorId);
         Task AddAsync(job job);
         Task UpdateAsync(job job);
+        Task DeleteJobAsync(long jobId);
     }
 }

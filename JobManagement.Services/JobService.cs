@@ -59,5 +59,9 @@ namespace JobManagement.Services
         {
             await _jobRepository.UpdateAsync(job);
         }
+        public async Task DeleteJobAsync(long jobId)
+        {
+            await _jobRepository.DeleteJobAsync(jobId);
+        }
     }
 }
