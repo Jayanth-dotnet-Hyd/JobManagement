@@ -54,11 +54,10 @@ namespace JobManagement.Services
         }
         public async Task<List<AppliedJobDto>> GetAllAppliedJobsAsync(int userId)
         {
-            // Repository already filters + includes Job
-            var applications = await _applicationRepository
-                .GetByApplicantIdAsync(userId);
 
-            // Map Entity → DTO
+            var applications = await _applicationRepository
+                .GetApplicationsByApplicantAsync(userId);
+
             return applications.Select(a => new AppliedJobDto
             {
                 JobId = a.job_id,
@@ -67,13 +66,36 @@ namespace JobManagement.Services
                 EmploymentType = a.job.employment_type,
                 MinSalary = a.job.salary_min,
                 MaxSalary = a.job.salary_max,
-                AppliedAt = a.applied_at
+                AppliedAt = a.applied_at,
+                Status = a.status
             }).ToList();
         }
-
-        public async Task<IEnumerable<application>> GetApplicationsByApplicantAsync(long applicantId)
+        public async Task<IEnumerable<ShortlistedCandidateDto>> GetShortlistedCandidates()
         {
-            return await _applicationRepository.GetByApplicantIdAsync(applicantId);
+            var apps = await _applicationRepository.GetApprovedApplicationsAsync();
+
+            return apps.Select(a => new ShortlistedCandidateDto
+            {
+                JobId = a.job_id,
+                JobTitle = a.job.title,
+                ApplicantName = a.applicant.full_name,
+                ApplicantEmail = a.applicant.email
+            });
+        }
+
+
+        public async Task<IEnumerable<AppliedJobDto>> GetApplicationsByApplicantAsync(long applicantId)
+        {
+            var applications = await _applicationRepository
+         .GetApplicationsByApplicantAsync(applicantId);
+
+            return applications.Select(a => new AppliedJobDto
+            {
+                JobId = a.job_id,
+                JobTitle = a.job.title,
+                Status = a.status,
+                AppliedAt = a.applied_at
+            });
         }
 
         public async Task ApplyForJobAsync(int userId, JobApplicationCreateDto dto)
@@ -111,18 +133,7 @@ namespace JobManagement.Services
         }
 
 
-        public async Task UpdateStatusAsync(long applicationId, string status)
-        {
-            var application = await _applicationRepository.GetByIdAsync(applicationId);
-
-            if (application == null)
-                throw new Exception("Application not found.");
-
-            application.status = status;
-            application.updated_at = DateTime.UtcNow;
-
-            await _applicationRepository.UpdateAsync(application);
-        }
+        
 
         public async Task DeleteApplicationAsync(long applicationId)
         {
@@ -133,5 +144,22 @@ namespace JobManagement.Services
 
             await _applicationRepository.DeleteAsync(application);
         }
+        public async Task UpdateApplicationStatusAsync(long applicationId, string status)
+        {
+            var allowedStatuses = new[]
+            {
+        "APPLIED",
+        "APPROVED",
+        "REJECTED",
+        "ONLINE_ASSESSMENT",
+        "ONLINE_INTERVIEW"
+    };
+
+            if (!allowedStatuses.Contains(status))
+                throw new Exception("Invalid application status");
+
+            await _applicationRepository.UpdateStatusAsync(applicationId, status);
+        }
+
     }
 }

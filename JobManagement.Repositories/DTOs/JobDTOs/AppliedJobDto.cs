@@ -11,9 +11,11 @@ namespace JobManagement.Repositories.DTOs.JobDTOs
         public long JobId { get; set; }
         public string JobTitle { get; set; }
         public string Location { get; set; }
+        
         public string EmploymentType { get; set; }
         public decimal? MinSalary { get; set; }
         public decimal? MaxSalary { get; set; }
+        public string Status { get; set; } = string.Empty;
         public DateTime AppliedAt { get; set; }
     }
 }

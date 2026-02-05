@@ -15,7 +15,8 @@ namespace JobManagement.Repositories
         Task AddAsync(user applicant);
         Task UpdateAsync(user applicant);
         Task<bool> ExistsAsync(string email);
+        
 
-   
+
     }
 }

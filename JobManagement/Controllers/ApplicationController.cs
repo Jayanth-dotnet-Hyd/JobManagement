@@ -42,16 +42,22 @@ namespace JobManagement.Controllers
             }
         }
 
-        
-        [HttpGet("applicant/{applicantId:long}")]
-        public async Task<IActionResult> GetByApplicant(long applicantId)
+
+        [HttpGet("applicant")]
+        public async Task<IActionResult> GetByApplicant()
         {
+            var applicantId = long.Parse(User.FindFirst("sub")!.Value);
             var applications = await _applicationService
                 .GetApplicationsByApplicantAsync(applicantId);
 
             return Ok(applications);
         }
-       
+        [HttpGet("Shortlisted")]
+        public async Task<IActionResult> GetShortlisted()
+        {
+            return Ok(await _applicationService.GetShortlistedCandidates());
+        }
+
         [HttpGet("applied")]
         public async Task<IActionResult> GetAppliedJobs()
         {
@@ -73,21 +79,7 @@ namespace JobManagement.Controllers
         }
 
         
-        [HttpPut("{applicationId:long}/status")]
-        public async Task<IActionResult> UpdateStatus(
-            long applicationId,
-            [FromQuery] string status)
-        {
-            try
-            {
-                await _applicationService.UpdateStatusAsync(applicationId, status);
-                return Ok(new { message = "Application status updated." });
-            }
-            catch (Exception ex)
-            {
-                return NotFound(new { message = ex.Message });
-            }
-        }
+        
 
         
         [HttpGet("{id:long}")]
@@ -100,8 +92,30 @@ namespace JobManagement.Controllers
 
             return Ok(application);
         }
+        [HttpPut("{applicationId}/status")]
+        public async Task<IActionResult> UpdateApplicationStatus(
+    long applicationId,
+    [FromBody] UpdateApplicationStatusDto dto)
+        {
+            try
+            {
+                await _applicationService.UpdateApplicationStatusAsync(
+                    applicationId,
+                    dto.Status
+                );
 
-        
+                return Ok(new
+                {
+                    message = "Application status updated successfully"
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+
         [HttpDelete("{id:long}")]
         public async Task<IActionResult> Delete(long id)
         {

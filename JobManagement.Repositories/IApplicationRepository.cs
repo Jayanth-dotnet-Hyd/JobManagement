@@ -15,12 +15,14 @@ namespace JobManagement.Repositories
         Task<application?> GetByJobAndApplicantAsync(long jobId, long applicantId);
 
         Task<IEnumerable<application>> GetByJobIdAsync(long jobId);
-        Task<IEnumerable<application>> GetByApplicantIdAsync(long applicantId);
+        Task<IEnumerable<application>> GetApplicationsByApplicantAsync(long applicantId);
 
+        Task<IEnumerable<application>> GetApprovedApplicationsAsync();
         Task AddAsync(application application);
         Task UpdateAsync(application application);
         Task DeleteAsync(application application);
 
         Task<bool> ExistsAsync(long jobId, long applicantId);
+        Task UpdateStatusAsync(long applicantId, string status);
     }
 }

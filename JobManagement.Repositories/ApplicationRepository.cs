@@ -51,11 +51,20 @@ namespace JobManagement.Repositories
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<application>> GetByApplicantIdAsync(long applicantId)
+        public async Task<IEnumerable<application>> GetApplicationsByApplicantAsync(long applicantId)
         {
             return await _context.applications
                 .Where(a => a.applicant_id == applicantId)
                 .Include(a => a.job)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<application>> GetApprovedApplicationsAsync()
+        {
+            return await _context.applications
+                .Include(a => a.job)
+                .Include(a => a.applicant)
+                .Where(a => a.status == "APPROVED")
                 .ToListAsync();
         }
 
@@ -82,6 +91,20 @@ namespace JobManagement.Repositories
             return await _context.applications
                 .AnyAsync(a => a.job_id == jobId && a.applicant_id == applicantId);
         }
+        public async Task UpdateStatusAsync(long applicationId, string status)
+        {
+            var application = await _context.applications
+                .FirstOrDefaultAsync(a => a.id == applicationId);
+
+            if (application == null)
+                throw new Exception("Application not found");
+
+            application.status = status;
+            application.updated_at = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+        }
+
     }
-    
+
 }
